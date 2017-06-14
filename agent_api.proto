@@ -116,7 +116,7 @@ message QueryCollection {
     bool node_invalid = 2;
 
     message Query {
-        int32 id = 1;
+        string id = 1;
         string query = 2;
     }
 }
@@ -134,13 +134,12 @@ message ResultCollection {
     // status is moved here instead of appearing as a map of id[status]
     // on the ResultCollection, as it does in the osq docs
     message Result {
-        int32 id = 1;
+        string id = 1;
         repeated ResultRow rows = 2;
         int32 status = 3;
 
         message ResultRow {
-            int32 id = 1;
-            repeated Column columns = 2;
+            repeated Column columns = 1;
 
             message Column {
                 string name = 1;

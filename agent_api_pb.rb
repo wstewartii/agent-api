@@ -43,7 +43,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :node_invalid, :bool, 2
   end
   add_message "agentapi.QueryCollection.Query" do
-    optional :id, :int32, 1
+    optional :id, :string, 1
     optional :query, :string, 2
   end
   add_message "agentapi.ResultCollection" do
@@ -51,13 +51,12 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     repeated :results, :message, 2, "agentapi.ResultCollection.Result"
   end
   add_message "agentapi.ResultCollection.Result" do
-    optional :id, :int32, 1
+    optional :id, :string, 1
     repeated :rows, :message, 2, "agentapi.ResultCollection.Result.ResultRow"
     optional :status, :int32, 3
   end
   add_message "agentapi.ResultCollection.Result.ResultRow" do
-    optional :id, :int32, 1
-    repeated :columns, :message, 2, "agentapi.ResultCollection.Result.ResultRow.Column"
+    repeated :columns, :message, 1, "agentapi.ResultCollection.Result.ResultRow.Column"
   end
   add_message "agentapi.ResultCollection.Result.ResultRow.Column" do
     optional :name, :string, 1
