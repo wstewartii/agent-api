@@ -1,8 +1,8 @@
 syntax = "proto3";
 
-package agentapi;
+package kolide.agent;
 
-service AgentApi {
+service Api {
 
     //////////////////////
     // Core Service

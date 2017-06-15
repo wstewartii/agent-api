@@ -2,7 +2,7 @@
 // source: agent_api.proto
 
 /*
-Package agentapi is a generated protocol buffer package.
+Package kolide_agent is a generated protocol buffer package.
 
 It is generated from these files:
 	agent_api.proto
@@ -17,7 +17,7 @@ It has these top-level messages:
 	QueryCollection
 	ResultCollection
 */
-package agentapi
+package kolide_agent
 
 import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
@@ -198,7 +198,7 @@ func (m *ConfigResponse) GetNodeInvalid() bool {
 
 type LogCollection struct {
 	NodeKey string                `protobuf:"bytes,1,opt,name=node_key,json=nodeKey" json:"node_key,omitempty"`
-	LogType LogCollection_LogType `protobuf:"varint,2,opt,name=log_type,json=logType,enum=agentapi.LogCollection_LogType" json:"log_type,omitempty"`
+	LogType LogCollection_LogType `protobuf:"varint,2,opt,name=log_type,json=logType,enum=kolide.agent.LogCollection_LogType" json:"log_type,omitempty"`
 	Logs    []*LogCollection_Log  `protobuf:"bytes,3,rep,name=logs" json:"logs,omitempty"`
 }
 
@@ -399,20 +399,20 @@ func (m *ResultCollection_Result_ResultRow_Column) GetValue() string {
 }
 
 func init() {
-	proto.RegisterType((*AgentApiRequest)(nil), "agentapi.AgentApiRequest")
-	proto.RegisterType((*AgentApiResponse)(nil), "agentapi.AgentApiResponse")
-	proto.RegisterType((*EnrollmentRequest)(nil), "agentapi.EnrollmentRequest")
-	proto.RegisterType((*EnrollmentResponse)(nil), "agentapi.EnrollmentResponse")
-	proto.RegisterType((*ConfigResponse)(nil), "agentapi.ConfigResponse")
-	proto.RegisterType((*LogCollection)(nil), "agentapi.LogCollection")
-	proto.RegisterType((*LogCollection_Log)(nil), "agentapi.LogCollection.Log")
-	proto.RegisterType((*QueryCollection)(nil), "agentapi.QueryCollection")
-	proto.RegisterType((*QueryCollection_Query)(nil), "agentapi.QueryCollection.Query")
-	proto.RegisterType((*ResultCollection)(nil), "agentapi.ResultCollection")
-	proto.RegisterType((*ResultCollection_Result)(nil), "agentapi.ResultCollection.Result")
-	proto.RegisterType((*ResultCollection_Result_ResultRow)(nil), "agentapi.ResultCollection.Result.ResultRow")
-	proto.RegisterType((*ResultCollection_Result_ResultRow_Column)(nil), "agentapi.ResultCollection.Result.ResultRow.Column")
-	proto.RegisterEnum("agentapi.LogCollection_LogType", LogCollection_LogType_name, LogCollection_LogType_value)
+	proto.RegisterType((*AgentApiRequest)(nil), "kolide.agent.AgentApiRequest")
+	proto.RegisterType((*AgentApiResponse)(nil), "kolide.agent.AgentApiResponse")
+	proto.RegisterType((*EnrollmentRequest)(nil), "kolide.agent.EnrollmentRequest")
+	proto.RegisterType((*EnrollmentResponse)(nil), "kolide.agent.EnrollmentResponse")
+	proto.RegisterType((*ConfigResponse)(nil), "kolide.agent.ConfigResponse")
+	proto.RegisterType((*LogCollection)(nil), "kolide.agent.LogCollection")
+	proto.RegisterType((*LogCollection_Log)(nil), "kolide.agent.LogCollection.Log")
+	proto.RegisterType((*QueryCollection)(nil), "kolide.agent.QueryCollection")
+	proto.RegisterType((*QueryCollection_Query)(nil), "kolide.agent.QueryCollection.Query")
+	proto.RegisterType((*ResultCollection)(nil), "kolide.agent.ResultCollection")
+	proto.RegisterType((*ResultCollection_Result)(nil), "kolide.agent.ResultCollection.Result")
+	proto.RegisterType((*ResultCollection_Result_ResultRow)(nil), "kolide.agent.ResultCollection.Result.ResultRow")
+	proto.RegisterType((*ResultCollection_Result_ResultRow_Column)(nil), "kolide.agent.ResultCollection.Result.ResultRow.Column")
+	proto.RegisterEnum("kolide.agent.LogCollection_LogType", LogCollection_LogType_name, LogCollection_LogType_value)
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -423,9 +423,9 @@ var _ grpc.ClientConn
 // is compatible with the grpc package it is being compiled against.
 const _ = grpc.SupportPackageIsVersion4
 
-// Client API for AgentApi service
+// Client API for Api service
 
-type AgentApiClient interface {
+type ApiClient interface {
 	// Attempt to enroll a host with kolide/cloud
 	RequestEnrollment(ctx context.Context, in *EnrollmentRequest, opts ...grpc.CallOption) (*EnrollmentResponse, error)
 	// request an updated configuration from kolide/cloud
@@ -441,70 +441,70 @@ type AgentApiClient interface {
 	// a generic response object is returned
 	PublishResults(ctx context.Context, in *ResultCollection, opts ...grpc.CallOption) (*AgentApiResponse, error)
 	// pushed configurations
-	HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (AgentApi_HotConfigureClient, error)
+	HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (Api_HotConfigureClient, error)
 	// this would be live query push to agent, and response back to kolide/cloud
-	HotlineBling(ctx context.Context, opts ...grpc.CallOption) (AgentApi_HotlineBlingClient, error)
+	HotlineBling(ctx context.Context, opts ...grpc.CallOption) (Api_HotlineBlingClient, error)
 }
 
-type agentApiClient struct {
+type apiClient struct {
 	cc *grpc.ClientConn
 }
 
-func NewAgentApiClient(cc *grpc.ClientConn) AgentApiClient {
-	return &agentApiClient{cc}
+func NewApiClient(cc *grpc.ClientConn) ApiClient {
+	return &apiClient{cc}
 }
 
-func (c *agentApiClient) RequestEnrollment(ctx context.Context, in *EnrollmentRequest, opts ...grpc.CallOption) (*EnrollmentResponse, error) {
+func (c *apiClient) RequestEnrollment(ctx context.Context, in *EnrollmentRequest, opts ...grpc.CallOption) (*EnrollmentResponse, error) {
 	out := new(EnrollmentResponse)
-	err := grpc.Invoke(ctx, "/agentapi.AgentApi/RequestEnrollment", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestEnrollment", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *agentApiClient) RequestConfig(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*ConfigResponse, error) {
+func (c *apiClient) RequestConfig(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*ConfigResponse, error) {
 	out := new(ConfigResponse)
-	err := grpc.Invoke(ctx, "/agentapi.AgentApi/RequestConfig", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestConfig", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *agentApiClient) RequestQueries(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*QueryCollection, error) {
+func (c *apiClient) RequestQueries(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*QueryCollection, error) {
 	out := new(QueryCollection)
-	err := grpc.Invoke(ctx, "/agentapi.AgentApi/RequestQueries", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestQueries", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *agentApiClient) PublishLogs(ctx context.Context, in *LogCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
+func (c *apiClient) PublishLogs(ctx context.Context, in *LogCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
 	out := new(AgentApiResponse)
-	err := grpc.Invoke(ctx, "/agentapi.AgentApi/PublishLogs", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/PublishLogs", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *agentApiClient) PublishResults(ctx context.Context, in *ResultCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
+func (c *apiClient) PublishResults(ctx context.Context, in *ResultCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
 	out := new(AgentApiResponse)
-	err := grpc.Invoke(ctx, "/agentapi.AgentApi/PublishResults", in, out, c.cc, opts...)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/PublishResults", in, out, c.cc, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *agentApiClient) HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (AgentApi_HotConfigureClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_AgentApi_serviceDesc.Streams[0], c.cc, "/agentapi.AgentApi/HotConfigure", opts...)
+func (c *apiClient) HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (Api_HotConfigureClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Api_serviceDesc.Streams[0], c.cc, "/kolide.agent.Api/HotConfigure", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &agentApiHotConfigureClient{stream}
+	x := &apiHotConfigureClient{stream}
 	if err := x.ClientStream.SendMsg(in); err != nil {
 		return nil, err
 	}
@@ -514,16 +514,16 @@ func (c *agentApiClient) HotConfigure(ctx context.Context, in *AgentApiRequest, 
 	return x, nil
 }
 
-type AgentApi_HotConfigureClient interface {
+type Api_HotConfigureClient interface {
 	Recv() (*ConfigResponse, error)
 	grpc.ClientStream
 }
 
-type agentApiHotConfigureClient struct {
+type apiHotConfigureClient struct {
 	grpc.ClientStream
 }
 
-func (x *agentApiHotConfigureClient) Recv() (*ConfigResponse, error) {
+func (x *apiHotConfigureClient) Recv() (*ConfigResponse, error) {
 	m := new(ConfigResponse)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -531,30 +531,30 @@ func (x *agentApiHotConfigureClient) Recv() (*ConfigResponse, error) {
 	return m, nil
 }
 
-func (c *agentApiClient) HotlineBling(ctx context.Context, opts ...grpc.CallOption) (AgentApi_HotlineBlingClient, error) {
-	stream, err := grpc.NewClientStream(ctx, &_AgentApi_serviceDesc.Streams[1], c.cc, "/agentapi.AgentApi/HotlineBling", opts...)
+func (c *apiClient) HotlineBling(ctx context.Context, opts ...grpc.CallOption) (Api_HotlineBlingClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Api_serviceDesc.Streams[1], c.cc, "/kolide.agent.Api/HotlineBling", opts...)
 	if err != nil {
 		return nil, err
 	}
-	x := &agentApiHotlineBlingClient{stream}
+	x := &apiHotlineBlingClient{stream}
 	return x, nil
 }
 
-type AgentApi_HotlineBlingClient interface {
+type Api_HotlineBlingClient interface {
 	Send(*ResultCollection) error
 	Recv() (*QueryCollection, error)
 	grpc.ClientStream
 }
 
-type agentApiHotlineBlingClient struct {
+type apiHotlineBlingClient struct {
 	grpc.ClientStream
 }
 
-func (x *agentApiHotlineBlingClient) Send(m *ResultCollection) error {
+func (x *apiHotlineBlingClient) Send(m *ResultCollection) error {
 	return x.ClientStream.SendMsg(m)
 }
 
-func (x *agentApiHotlineBlingClient) Recv() (*QueryCollection, error) {
+func (x *apiHotlineBlingClient) Recv() (*QueryCollection, error) {
 	m := new(QueryCollection)
 	if err := x.ClientStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -562,9 +562,9 @@ func (x *agentApiHotlineBlingClient) Recv() (*QueryCollection, error) {
 	return m, nil
 }
 
-// Server API for AgentApi service
+// Server API for Api service
 
-type AgentApiServer interface {
+type ApiServer interface {
 	// Attempt to enroll a host with kolide/cloud
 	RequestEnrollment(context.Context, *EnrollmentRequest) (*EnrollmentResponse, error)
 	// request an updated configuration from kolide/cloud
@@ -580,145 +580,145 @@ type AgentApiServer interface {
 	// a generic response object is returned
 	PublishResults(context.Context, *ResultCollection) (*AgentApiResponse, error)
 	// pushed configurations
-	HotConfigure(*AgentApiRequest, AgentApi_HotConfigureServer) error
+	HotConfigure(*AgentApiRequest, Api_HotConfigureServer) error
 	// this would be live query push to agent, and response back to kolide/cloud
-	HotlineBling(AgentApi_HotlineBlingServer) error
+	HotlineBling(Api_HotlineBlingServer) error
 }
 
-func RegisterAgentApiServer(s *grpc.Server, srv AgentApiServer) {
-	s.RegisterService(&_AgentApi_serviceDesc, srv)
+func RegisterApiServer(s *grpc.Server, srv ApiServer) {
+	s.RegisterService(&_Api_serviceDesc, srv)
 }
 
-func _AgentApi_RequestEnrollment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_RequestEnrollment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(EnrollmentRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentApiServer).RequestEnrollment(ctx, in)
+		return srv.(ApiServer).RequestEnrollment(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/agentapi.AgentApi/RequestEnrollment",
+		FullMethod: "/kolide.agent.Api/RequestEnrollment",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentApiServer).RequestEnrollment(ctx, req.(*EnrollmentRequest))
+		return srv.(ApiServer).RequestEnrollment(ctx, req.(*EnrollmentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentApi_RequestConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_RequestConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AgentApiRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentApiServer).RequestConfig(ctx, in)
+		return srv.(ApiServer).RequestConfig(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/agentapi.AgentApi/RequestConfig",
+		FullMethod: "/kolide.agent.Api/RequestConfig",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentApiServer).RequestConfig(ctx, req.(*AgentApiRequest))
+		return srv.(ApiServer).RequestConfig(ctx, req.(*AgentApiRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentApi_RequestQueries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_RequestQueries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(AgentApiRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentApiServer).RequestQueries(ctx, in)
+		return srv.(ApiServer).RequestQueries(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/agentapi.AgentApi/RequestQueries",
+		FullMethod: "/kolide.agent.Api/RequestQueries",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentApiServer).RequestQueries(ctx, req.(*AgentApiRequest))
+		return srv.(ApiServer).RequestQueries(ctx, req.(*AgentApiRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentApi_PublishLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_PublishLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(LogCollection)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentApiServer).PublishLogs(ctx, in)
+		return srv.(ApiServer).PublishLogs(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/agentapi.AgentApi/PublishLogs",
+		FullMethod: "/kolide.agent.Api/PublishLogs",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentApiServer).PublishLogs(ctx, req.(*LogCollection))
+		return srv.(ApiServer).PublishLogs(ctx, req.(*LogCollection))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentApi_PublishResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Api_PublishResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ResultCollection)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AgentApiServer).PublishResults(ctx, in)
+		return srv.(ApiServer).PublishResults(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/agentapi.AgentApi/PublishResults",
+		FullMethod: "/kolide.agent.Api/PublishResults",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AgentApiServer).PublishResults(ctx, req.(*ResultCollection))
+		return srv.(ApiServer).PublishResults(ctx, req.(*ResultCollection))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _AgentApi_HotConfigure_Handler(srv interface{}, stream grpc.ServerStream) error {
+func _Api_HotConfigure_Handler(srv interface{}, stream grpc.ServerStream) error {
 	m := new(AgentApiRequest)
 	if err := stream.RecvMsg(m); err != nil {
 		return err
 	}
-	return srv.(AgentApiServer).HotConfigure(m, &agentApiHotConfigureServer{stream})
+	return srv.(ApiServer).HotConfigure(m, &apiHotConfigureServer{stream})
 }
 
-type AgentApi_HotConfigureServer interface {
+type Api_HotConfigureServer interface {
 	Send(*ConfigResponse) error
 	grpc.ServerStream
 }
 
-type agentApiHotConfigureServer struct {
+type apiHotConfigureServer struct {
 	grpc.ServerStream
 }
 
-func (x *agentApiHotConfigureServer) Send(m *ConfigResponse) error {
+func (x *apiHotConfigureServer) Send(m *ConfigResponse) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func _AgentApi_HotlineBling_Handler(srv interface{}, stream grpc.ServerStream) error {
-	return srv.(AgentApiServer).HotlineBling(&agentApiHotlineBlingServer{stream})
+func _Api_HotlineBling_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ApiServer).HotlineBling(&apiHotlineBlingServer{stream})
 }
 
-type AgentApi_HotlineBlingServer interface {
+type Api_HotlineBlingServer interface {
 	Send(*QueryCollection) error
 	Recv() (*ResultCollection, error)
 	grpc.ServerStream
 }
 
-type agentApiHotlineBlingServer struct {
+type apiHotlineBlingServer struct {
 	grpc.ServerStream
 }
 
-func (x *agentApiHotlineBlingServer) Send(m *QueryCollection) error {
+func (x *apiHotlineBlingServer) Send(m *QueryCollection) error {
 	return x.ServerStream.SendMsg(m)
 }
 
-func (x *agentApiHotlineBlingServer) Recv() (*ResultCollection, error) {
+func (x *apiHotlineBlingServer) Recv() (*ResultCollection, error) {
 	m := new(ResultCollection)
 	if err := x.ServerStream.RecvMsg(m); err != nil {
 		return nil, err
@@ -726,40 +726,40 @@ func (x *agentApiHotlineBlingServer) Recv() (*ResultCollection, error) {
 	return m, nil
 }
 
-var _AgentApi_serviceDesc = grpc.ServiceDesc{
-	ServiceName: "agentapi.AgentApi",
-	HandlerType: (*AgentApiServer)(nil),
+var _Api_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "kolide.agent.Api",
+	HandlerType: (*ApiServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "RequestEnrollment",
-			Handler:    _AgentApi_RequestEnrollment_Handler,
+			Handler:    _Api_RequestEnrollment_Handler,
 		},
 		{
 			MethodName: "RequestConfig",
-			Handler:    _AgentApi_RequestConfig_Handler,
+			Handler:    _Api_RequestConfig_Handler,
 		},
 		{
 			MethodName: "RequestQueries",
-			Handler:    _AgentApi_RequestQueries_Handler,
+			Handler:    _Api_RequestQueries_Handler,
 		},
 		{
 			MethodName: "PublishLogs",
-			Handler:    _AgentApi_PublishLogs_Handler,
+			Handler:    _Api_PublishLogs_Handler,
 		},
 		{
 			MethodName: "PublishResults",
-			Handler:    _AgentApi_PublishResults_Handler,
+			Handler:    _Api_PublishResults_Handler,
 		},
 	},
 	Streams: []grpc.StreamDesc{
 		{
 			StreamName:    "HotConfigure",
-			Handler:       _AgentApi_HotConfigure_Handler,
+			Handler:       _Api_HotConfigure_Handler,
 			ServerStreams: true,
 		},
 		{
 			StreamName:    "HotlineBling",
-			Handler:       _AgentApi_HotlineBling_Handler,
+			Handler:       _Api_HotlineBling_Handler,
 			ServerStreams: true,
 			ClientStreams: true,
 		},
@@ -770,51 +770,51 @@ var _AgentApi_serviceDesc = grpc.ServiceDesc{
 func init() { proto.RegisterFile("agent_api.proto", fileDescriptor0) }
 
 var fileDescriptor0 = []byte{
-	// 731 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0xcd, 0x6e, 0xdb, 0x46,
-	0x10, 0x16, 0xa9, 0xff, 0xb1, 0xfe, 0xbc, 0x28, 0x5a, 0x8a, 0x6d, 0x51, 0x9b, 0x3e, 0x54, 0x40,
-	0x5b, 0xd5, 0x50, 0x4f, 0x6d, 0x0f, 0x85, 0xac, 0x2a, 0xb1, 0x1d, 0x21, 0xb0, 0x29, 0x39, 0xb7,
-	0x80, 0xa0, 0xc4, 0x35, 0xbd, 0xc9, 0x6a, 0x57, 0xe6, 0x92, 0x36, 0x74, 0xcc, 0x03, 0xe4, 0x92,
-	0x07, 0xc8, 0xb3, 0xe5, 0x09, 0xf2, 0x0c, 0x01, 0x97, 0x4b, 0x49, 0x96, 0x2d, 0xd9, 0xc9, 0x6d,
-	0xe6, 0xe3, 0xcc, 0xb7, 0xdf, 0xce, 0xce, 0x0c, 0xa1, 0xee, 0xfa, 0x98, 0x85, 0x8e, 0x3b, 0x23,
-	0xed, 0x59, 0xc0, 0x43, 0x8e, 0x4a, 0x12, 0x70, 0x67, 0xc4, 0x3a, 0x87, 0x7a, 0x37, 0xb6, 0xbb,
-	0x33, 0x62, 0xe3, 0xeb, 0x08, 0x8b, 0x10, 0x35, 0xa1, 0xc4, 0xb8, 0x87, 0x9d, 0xb7, 0x78, 0x6e,
-	0x68, 0x7b, 0x5a, 0xab, 0x6c, 0x17, 0x63, 0xff, 0x05, 0x9e, 0xa3, 0x03, 0xa8, 0x26, 0x54, 0x37,
-	0x38, 0x10, 0x84, 0x33, 0x43, 0x97, 0xdf, 0x2b, 0x12, 0x7c, 0x95, 0x60, 0x16, 0x83, 0xc6, 0x92,
-	0x52, 0xcc, 0x38, 0x13, 0x18, 0x19, 0x50, 0x9c, 0x62, 0x21, 0x5c, 0x1f, 0xa7, 0x94, 0xca, 0x45,
-	0x3f, 0x03, 0xe0, 0x20, 0xe0, 0x81, 0x33, 0xe1, 0x1e, 0x56, 0x7c, 0x65, 0x89, 0xf4, 0xb8, 0x87,
-	0xd1, 0x3e, 0x54, 0xa4, 0x18, 0xc2, 0x6e, 0x5c, 0x4a, 0x3c, 0x23, 0xbb, 0xa7, 0xb5, 0x4a, 0xf6,
-	0x4e, 0x8c, 0x9d, 0x24, 0x90, 0xe5, 0xc2, 0x6e, 0x9f, 0x05, 0x9c, 0xd2, 0x29, 0x66, 0x61, 0x7a,
-	0x89, 0x03, 0xa8, 0x62, 0x09, 0x3a, 0x02, 0x4f, 0x02, 0x1c, 0xaa, 0x63, 0x2b, 0x09, 0x38, 0x94,
-	0x18, 0xfa, 0x15, 0xea, 0x57, 0x5c, 0x84, 0x0e, 0xf1, 0x30, 0x0b, 0xc9, 0x25, 0xc1, 0x81, 0x12,
-	0x50, 0x8b, 0xe1, 0x93, 0x05, 0x6a, 0xd9, 0x80, 0x56, 0x8f, 0x50, 0x97, 0xda, 0x52, 0xa8, 0x75,
-	0xd9, 0xfa, 0x7d, 0xd9, 0xaf, 0xa1, 0xd6, 0xe3, 0xec, 0x92, 0xf8, 0x0b, 0xbe, 0x16, 0x34, 0x26,
-	0x12, 0x71, 0xde, 0x08, 0xce, 0x9c, 0x31, 0xe5, 0x63, 0xc5, 0x5b, 0x4b, 0xf0, 0x53, 0xc1, 0xd9,
-	0x11, 0xe5, 0xe3, 0xa7, 0xd0, 0x7f, 0xd2, 0xa0, 0x3a, 0xe0, 0x7e, 0x8f, 0x53, 0x8a, 0x27, 0x21,
-	0xe1, 0x6c, 0x9b, 0xdc, 0x7f, 0xa0, 0x44, 0xb9, 0xef, 0x84, 0xf3, 0x59, 0xf2, 0x04, 0xb5, 0xce,
-	0x2f, 0xed, 0xb4, 0x45, 0xda, 0x77, 0x58, 0x62, 0x6f, 0x34, 0x9f, 0x61, 0xbb, 0x48, 0x13, 0x03,
-	0xfd, 0x09, 0x39, 0xca, 0x7d, 0x61, 0x64, 0xf7, 0xb2, 0xad, 0x9d, 0xce, 0x8f, 0x5b, 0xf2, 0x6c,
-	0x19, 0x68, 0x36, 0x21, 0x3b, 0xe0, 0x3e, 0x42, 0x90, 0xf3, 0xdc, 0xd0, 0x55, 0x52, 0xa4, 0x6d,
-	0xfd, 0x0e, 0x45, 0xc5, 0x8f, 0x00, 0x0a, 0x76, 0x7f, 0x78, 0x31, 0x18, 0x35, 0x32, 0xb1, 0x3d,
-	0x1c, 0x75, 0x47, 0x17, 0xc3, 0x86, 0x86, 0xca, 0x90, 0xef, 0x3e, 0xef, 0xbf, 0x1c, 0x35, 0x74,
-	0xeb, 0xa3, 0x06, 0xf5, 0xf3, 0x08, 0x07, 0xf3, 0x95, 0x4b, 0xfe, 0x0d, 0xc5, 0xeb, 0x08, 0x07,
-	0x04, 0x0b, 0x43, 0x93, 0x82, 0x56, 0x2e, 0xb2, 0x16, 0x9b, 0xf8, 0x76, 0x1a, 0xff, 0x84, 0xa2,
-	0x9a, 0x7f, 0x40, 0x5e, 0x26, 0xa1, 0x1a, 0xe8, 0xc4, 0x53, 0xd2, 0x75, 0xe2, 0xa1, 0xef, 0x20,
-	0x1f, 0xd3, 0xcc, 0x55, 0xff, 0x24, 0x8e, 0xf5, 0x59, 0x87, 0x86, 0x8d, 0x45, 0x44, 0xc3, 0xa7,
-	0x3d, 0xc3, 0xbf, 0x50, 0x0c, 0x64, 0xb8, 0x30, 0x74, 0x29, 0x7e, 0x7f, 0x29, 0x7e, 0x9d, 0x47,
-	0x01, 0x76, 0x9a, 0x61, 0xbe, 0xd3, 0xa1, 0x90, 0x60, 0xf7, 0xd4, 0xfd, 0x07, 0xb9, 0x80, 0xdf,
-	0xa6, 0xa4, 0xbf, 0x3d, 0x4a, 0x9a, 0x72, 0xf3, 0x5b, 0x5b, 0x26, 0xa2, 0xef, 0xa1, 0x20, 0x42,
-	0x37, 0x8c, 0x84, 0x9c, 0xbf, 0xbc, 0xad, 0x3c, 0xf3, 0xbd, 0x06, 0xe5, 0x45, 0x2c, 0x1a, 0x40,
-	0x71, 0xc2, 0x69, 0x34, 0x65, 0x69, 0xed, 0x3b, 0x5f, 0x71, 0x52, 0xbb, 0x27, 0x53, 0xed, 0x94,
-	0xc2, 0xec, 0x40, 0x21, 0x81, 0xe2, 0x4e, 0x61, 0xee, 0x34, 0xdd, 0x1c, 0xd2, 0x8e, 0x0b, 0x7e,
-	0xe3, 0xd2, 0x28, 0xdd, 0x18, 0x89, 0xd3, 0xf9, 0x90, 0x83, 0x52, 0xba, 0x7b, 0xd0, 0x19, 0xec,
-	0xaa, 0x6d, 0xb0, 0x9c, 0x5d, 0xb4, 0xd2, 0x9f, 0xf7, 0x96, 0x86, 0xf9, 0xd3, 0xc3, 0x1f, 0x93,
-	0xf1, 0xb4, 0x32, 0xe8, 0x19, 0x54, 0x55, 0x68, 0x32, 0xb9, 0xa8, 0xb9, 0x4c, 0x58, 0xdb, 0xa2,
-	0xa6, 0xb1, 0xfc, 0x74, 0x77, 0xcc, 0xad, 0x0c, 0x3a, 0x86, 0x9a, 0x0a, 0x3b, 0x57, 0xbd, 0xb7,
-	0x85, 0xa8, 0xb9, 0xb1, 0x81, 0xad, 0x0c, 0xfa, 0x1f, 0x76, 0xce, 0xa2, 0x31, 0x25, 0xe2, 0x6a,
-	0xc0, 0x7d, 0x81, 0x7e, 0xd8, 0x30, 0x7d, 0xa6, 0xf9, 0x10, 0xff, 0x42, 0xcf, 0x29, 0xd4, 0x14,
-	0x4b, 0xf2, 0x1c, 0x02, 0x99, 0x9b, 0x5f, 0xee, 0x11, 0xae, 0x3e, 0x54, 0x8e, 0xb9, 0xaa, 0x4f,
-	0x14, 0xe0, 0x6f, 0x2a, 0xd1, 0xa1, 0x86, 0x4e, 0x24, 0x0d, 0x25, 0x0c, 0x1f, 0x51, 0xc2, 0xfc,
-	0xad, 0x82, 0x36, 0x57, 0xa8, 0xa5, 0x1d, 0x6a, 0xe3, 0x82, 0xfc, 0xe7, 0xfd, 0xf5, 0x25, 0x00,
-	0x00, 0xff, 0xff, 0x1b, 0xd2, 0x25, 0xb5, 0x06, 0x07, 0x00, 0x00,
+	// 735 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0xa4, 0x55, 0xdd, 0x6e, 0xd3, 0x4c,
+	0x10, 0x8d, 0x9d, 0xbf, 0x66, 0x9a, 0xbf, 0xae, 0x3e, 0x7d, 0x4a, 0x0d, 0x2d, 0xc1, 0x15, 0x22,
+	0x17, 0x10, 0xaa, 0x54, 0xe2, 0x0e, 0x50, 0x1a, 0x55, 0x50, 0x08, 0x55, 0xe3, 0xa4, 0x88, 0x1b,
+	0x64, 0x39, 0xf1, 0xd6, 0x5d, 0xba, 0xd9, 0x4d, 0xbd, 0x76, 0xab, 0x3c, 0x02, 0x97, 0xbc, 0x02,
+	0xef, 0xc2, 0xbb, 0xf0, 0x0c, 0x5c, 0x21, 0xaf, 0xd7, 0x69, 0x93, 0xaa, 0x69, 0x10, 0x77, 0x3b,
+	0xc7, 0x33, 0x67, 0xcf, 0xcc, 0xce, 0x8c, 0xa1, 0xe2, 0x78, 0x98, 0x05, 0xb6, 0x33, 0x21, 0xcd,
+	0x89, 0xcf, 0x03, 0x8e, 0x8a, 0xe7, 0x9c, 0x12, 0x17, 0x37, 0x25, 0x6e, 0xf6, 0xa0, 0xd2, 0x8e,
+	0x0e, 0xed, 0x09, 0xb1, 0xf0, 0x45, 0x88, 0x45, 0x80, 0x36, 0x61, 0x8d, 0x71, 0x17, 0xdb, 0xe7,
+	0x78, 0x5a, 0xd3, 0xea, 0x5a, 0xa3, 0x60, 0xe5, 0x23, 0xfb, 0x03, 0x9e, 0xa2, 0x1d, 0x28, 0xc5,
+	0x74, 0x97, 0xd8, 0x17, 0x84, 0xb3, 0x9a, 0x2e, 0xbf, 0x17, 0x25, 0xf8, 0x29, 0xc6, 0x4c, 0x06,
+	0xd5, 0x6b, 0x4a, 0x31, 0xe1, 0x4c, 0x60, 0x54, 0x83, 0xfc, 0x18, 0x0b, 0xe1, 0x78, 0x38, 0xa1,
+	0x54, 0x26, 0xda, 0x02, 0xc0, 0xbe, 0xcf, 0x7d, 0x7b, 0xc4, 0x5d, 0xac, 0xf8, 0x0a, 0x12, 0xe9,
+	0x70, 0x17, 0xa3, 0xc7, 0x50, 0x94, 0x62, 0x08, 0xbb, 0x74, 0x28, 0x71, 0x6b, 0xe9, 0xba, 0xd6,
+	0x58, 0xb3, 0xd6, 0x23, 0xec, 0x30, 0x86, 0x4c, 0x07, 0x36, 0x0e, 0x98, 0xcf, 0x29, 0x1d, 0x63,
+	0x16, 0x24, 0x49, 0xec, 0x40, 0x09, 0x4b, 0xd0, 0x16, 0x78, 0xe4, 0xe3, 0x40, 0x5d, 0x5b, 0x8c,
+	0xc1, 0xbe, 0xc4, 0xd0, 0x53, 0xa8, 0x9c, 0x71, 0x11, 0xd8, 0xc4, 0xc5, 0x2c, 0x20, 0xa7, 0x04,
+	0xfb, 0x4a, 0x40, 0x39, 0x82, 0x0f, 0x67, 0xa8, 0x69, 0x01, 0xba, 0x79, 0x85, 0x4a, 0x6a, 0x49,
+	0xa1, 0x16, 0x65, 0xeb, 0xb7, 0x65, 0x7f, 0x81, 0x72, 0x87, 0xb3, 0x53, 0xe2, 0xcd, 0xf8, 0x1a,
+	0x50, 0x1d, 0x49, 0xc4, 0xfe, 0x2a, 0x38, 0xb3, 0x87, 0x94, 0x0f, 0x15, 0x6f, 0x39, 0xc6, 0xdf,
+	0x0b, 0xce, 0xf6, 0x29, 0x1f, 0xae, 0x42, 0xff, 0x4b, 0x83, 0x52, 0x97, 0x7b, 0x1d, 0x4e, 0x29,
+	0x1e, 0x05, 0x84, 0xb3, 0x65, 0x72, 0x5f, 0xc3, 0x1a, 0xe5, 0x9e, 0x1d, 0x4c, 0x27, 0xf1, 0x13,
+	0x94, 0x5b, 0x3b, 0xcd, 0x9b, 0x6d, 0xd2, 0x9c, 0x63, 0x8a, 0xac, 0xc1, 0x74, 0x82, 0xad, 0x3c,
+	0x8d, 0x0f, 0x68, 0x0f, 0x32, 0x94, 0x7b, 0xa2, 0x96, 0xae, 0xa7, 0x1b, 0xeb, 0xad, 0x47, 0xf7,
+	0xc4, 0x5a, 0xd2, 0xd9, 0xd8, 0x84, 0x74, 0x97, 0x7b, 0x08, 0x41, 0xc6, 0x75, 0x02, 0x47, 0x49,
+	0x92, 0x67, 0xf3, 0x19, 0xe4, 0xd5, 0x1d, 0x08, 0x20, 0x67, 0x1d, 0xf4, 0x4f, 0xba, 0x83, 0x6a,
+	0x2a, 0x3a, 0xf7, 0x07, 0xed, 0xc1, 0x49, 0xbf, 0xaa, 0xa1, 0x02, 0x64, 0xdb, 0x6f, 0x0f, 0x8e,
+	0x06, 0x55, 0xdd, 0xfc, 0xa1, 0x41, 0xa5, 0x17, 0x62, 0x7f, 0x7a, 0x23, 0xd9, 0x57, 0x90, 0xbf,
+	0x08, 0xb1, 0x4f, 0xb0, 0xa8, 0x69, 0x52, 0xd4, 0x42, 0x42, 0x0b, 0xfe, 0xb1, 0x6d, 0x25, 0x31,
+	0x2b, 0x14, 0xd8, 0x78, 0x0e, 0x59, 0x19, 0x84, 0xca, 0xa0, 0x13, 0x57, 0xc9, 0xd7, 0x89, 0x8b,
+	0xfe, 0x83, 0x6c, 0x44, 0x33, 0x55, 0xbd, 0x14, 0x1b, 0xe6, 0x6f, 0x1d, 0xaa, 0x16, 0x16, 0x21,
+	0x0d, 0x56, 0x7b, 0x92, 0x37, 0x90, 0xf7, 0xa5, 0xbb, 0xa8, 0xe9, 0x32, 0x81, 0x27, 0xf3, 0x09,
+	0x2c, 0x72, 0x29, 0xc0, 0x4a, 0xa2, 0x8c, 0x6f, 0x3a, 0xe4, 0x62, 0xec, 0x96, 0xc2, 0x0e, 0x64,
+	0x7c, 0x7e, 0x95, 0x10, 0xbf, 0x58, 0x89, 0x38, 0xe1, 0xe7, 0x57, 0x96, 0x0c, 0x46, 0xff, 0x43,
+	0x4e, 0x04, 0x4e, 0x10, 0x0a, 0x39, 0x93, 0x59, 0x4b, 0x59, 0xc6, 0x77, 0x0d, 0x0a, 0x33, 0x5f,
+	0x74, 0x0c, 0xf9, 0x11, 0xa7, 0xe1, 0x98, 0x25, 0xef, 0xf0, 0xf2, 0x2f, 0x6f, 0x6b, 0x76, 0x64,
+	0xb8, 0x95, 0xd0, 0x18, 0x2d, 0xc8, 0xc5, 0x50, 0xd4, 0x39, 0xcc, 0x19, 0x27, 0x1b, 0x45, 0x9e,
+	0xa3, 0xe2, 0x5f, 0x3a, 0x34, 0x4c, 0x36, 0x49, 0x6c, 0xb4, 0x7e, 0x66, 0x20, 0xdd, 0x9e, 0x10,
+	0xf4, 0x19, 0x36, 0xd4, 0x82, 0xb8, 0x1e, 0x67, 0xb4, 0xd0, 0xae, 0xb7, 0x76, 0x89, 0x51, 0xbf,
+	0xdb, 0x21, 0x9e, 0x5c, 0x33, 0x85, 0x8e, 0xa0, 0xa4, 0xdc, 0xe3, 0xa1, 0x46, 0x5b, 0xf3, 0x41,
+	0x0b, 0x4b, 0xd6, 0x78, 0x38, 0xff, 0x79, 0x7e, 0x13, 0x98, 0x29, 0x74, 0x0c, 0x65, 0xe5, 0xda,
+	0x53, 0x2d, 0x79, 0x0f, 0xe1, 0xd6, 0xd2, 0xfe, 0x36, 0x53, 0xa8, 0x0b, 0xeb, 0xc7, 0xe1, 0x90,
+	0x12, 0x71, 0xd6, 0xe5, 0x9e, 0x40, 0x0f, 0x96, 0x0c, 0xa9, 0xb1, 0x7d, 0xd7, 0x5d, 0x33, 0x7d,
+	0x16, 0x94, 0x15, 0x5b, 0xfc, 0x52, 0x02, 0x6d, 0x2f, 0x7f, 0xd8, 0x15, 0x38, 0x3f, 0x42, 0xf1,
+	0x1d, 0x57, 0xf5, 0x0b, 0x7d, 0xfc, 0x4f, 0x25, 0xdc, 0xd5, 0x50, 0x4f, 0xd2, 0x51, 0xc2, 0xf0,
+	0x3e, 0x25, 0xcc, 0xbb, 0x57, 0xe0, 0xf2, 0x0a, 0x36, 0xb4, 0x5d, 0x6d, 0x98, 0x93, 0xbf, 0xd0,
+	0xbd, 0x3f, 0x01, 0x00, 0x00, 0xff, 0xff, 0x8a, 0xc7, 0x9b, 0x73, 0x55, 0x07, 0x00, 0x00,
 }
