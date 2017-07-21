@@ -20,15 +20,18 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "kolide.agent.EnrollmentResponse" do
     optional :node_key, :string, 1
     optional :node_invalid, :bool, 2
+    optional :error_code, :string, 3
   end
   add_message "kolide.agent.ConfigResponse" do
     optional :config_json_blob, :string, 1
     optional :node_invalid, :bool, 2
+    optional :error_code, :string, 3
   end
   add_message "kolide.agent.LogCollection" do
     optional :node_key, :string, 1
     optional :log_type, :enum, 2, "kolide.agent.LogCollection.LogType"
     repeated :logs, :message, 3, "kolide.agent.LogCollection.Log"
+    optional :error_code, :string, 4
   end
   add_message "kolide.agent.LogCollection.Log" do
     optional :data, :string, 1
@@ -41,6 +44,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "kolide.agent.QueryCollection" do
     repeated :queries, :message, 1, "kolide.agent.QueryCollection.Query"
     optional :node_invalid, :bool, 2
+    optional :error_code, :string, 3
   end
   add_message "kolide.agent.QueryCollection.Query" do
     optional :id, :string, 1
@@ -49,6 +53,7 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "kolide.agent.ResultCollection" do
     optional :node_key, :string, 1
     repeated :results, :message, 2, "kolide.agent.ResultCollection.Result"
+    optional :error_code, :string, 3
   end
   add_message "kolide.agent.ResultCollection.Result" do
     optional :id, :string, 1

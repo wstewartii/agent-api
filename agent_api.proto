@@ -67,6 +67,7 @@ message EnrollmentRequest {
 message EnrollmentResponse {
     string node_key = 1;
     bool node_invalid = 2;
+    string error_code = 3;
 }
 
 
@@ -80,6 +81,7 @@ message EnrollmentResponse {
 message ConfigResponse {
     string config_json_blob = 1;
     bool node_invalid = 2;
+    string error_code = 3;
 }
 
 
@@ -91,6 +93,7 @@ message LogCollection {
     string node_key = 1;
     LogType log_type = 2;
     repeated Log logs = 3;
+    string error_code = 4;
 
     // AGENT is added as a new log type, for adding new
     // logging capabilities from kolide/agent
@@ -114,6 +117,7 @@ message LogCollection {
 message QueryCollection {
     repeated Query queries = 1;
     bool node_invalid = 2;
+    string error_code = 3;
 
     message Query {
         string id = 1;
@@ -130,7 +134,8 @@ message QueryCollection {
 message ResultCollection {
     string node_key = 1;
     repeated Result results = 2;
-
+    string error_code = 3;
+    
     // status is moved here instead of appearing as a map of id[status]
     // on the ResultCollection, as it does in the osq docs
     message Result {
