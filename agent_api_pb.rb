@@ -6,7 +6,6 @@ require 'google/protobuf'
 Google::Protobuf::DescriptorPool.generated_pool.build do
   add_message "kolide.agent.AgentApiRequest" do
     optional :node_key, :string, 1
-    optional :agent_version, :string, 2
   end
   add_message "kolide.agent.AgentApiResponse" do
     optional :message, :string, 1

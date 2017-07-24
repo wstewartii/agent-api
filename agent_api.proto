@@ -45,7 +45,6 @@ service Api {
 
 message AgentApiRequest {
     string node_key = 1;
-    string agent_version = 2;
 }
 
 message AgentApiResponse {
@@ -135,7 +134,7 @@ message ResultCollection {
     string node_key = 1;
     repeated Result results = 2;
     string error_code = 3;
-    
+
     // status is moved here instead of appearing as a map of id[status]
     // on the ResultCollection, as it does in the osq docs
     message Result {
