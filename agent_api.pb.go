@@ -23,6 +23,11 @@ import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 
+import (
+	context "golang.org/x/net/context"
+	grpc "google.golang.org/grpc"
+)
+
 // Reference imports to suppress errors if they are not otherwise used.
 var _ = proto.Marshal
 var _ = fmt.Errorf
@@ -440,6 +445,358 @@ func init() {
 	proto.RegisterType((*ResultCollection_Result_ResultRow)(nil), "kolide.agent.ResultCollection.Result.ResultRow")
 	proto.RegisterType((*ResultCollection_Result_ResultRow_Column)(nil), "kolide.agent.ResultCollection.Result.ResultRow.Column")
 	proto.RegisterEnum("kolide.agent.LogCollection_LogType", LogCollection_LogType_name, LogCollection_LogType_value)
+}
+
+// Reference imports to suppress errors if they are not otherwise used.
+var _ context.Context
+var _ grpc.ClientConn
+
+// This is a compile-time assertion to ensure that this generated file
+// is compatible with the grpc package it is being compiled against.
+const _ = grpc.SupportPackageIsVersion4
+
+// Client API for Api service
+
+type ApiClient interface {
+	// Attempt to enroll a host with kolide/cloud
+	RequestEnrollment(ctx context.Context, in *EnrollmentRequest, opts ...grpc.CallOption) (*EnrollmentResponse, error)
+	// request an updated configuration from kolide/cloud
+	// a generic request object is sent
+	RequestConfig(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*ConfigResponse, error)
+	// request/pull Dist queries from kolide/cloud
+	// a generic request object is sent
+	RequestQueries(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*QueryCollection, error)
+	// publish logs from osqueryd to kolide/cloud
+	// a generic response object is returned
+	PublishLogs(ctx context.Context, in *LogCollection, opts ...grpc.CallOption) (*AgentApiResponse, error)
+	// publish results from Dist queries to kolide/cloud
+	// a generic response object is returned
+	PublishResults(ctx context.Context, in *ResultCollection, opts ...grpc.CallOption) (*AgentApiResponse, error)
+	// pushed configurations
+	HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (Api_HotConfigureClient, error)
+	// this would be live query push to agent, and response back to kolide/cloud
+	HotlineBling(ctx context.Context, opts ...grpc.CallOption) (Api_HotlineBlingClient, error)
+}
+
+type apiClient struct {
+	cc *grpc.ClientConn
+}
+
+func NewApiClient(cc *grpc.ClientConn) ApiClient {
+	return &apiClient{cc}
+}
+
+func (c *apiClient) RequestEnrollment(ctx context.Context, in *EnrollmentRequest, opts ...grpc.CallOption) (*EnrollmentResponse, error) {
+	out := new(EnrollmentResponse)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestEnrollment", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) RequestConfig(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*ConfigResponse, error) {
+	out := new(ConfigResponse)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestConfig", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) RequestQueries(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (*QueryCollection, error) {
+	out := new(QueryCollection)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/RequestQueries", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) PublishLogs(ctx context.Context, in *LogCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
+	out := new(AgentApiResponse)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/PublishLogs", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) PublishResults(ctx context.Context, in *ResultCollection, opts ...grpc.CallOption) (*AgentApiResponse, error) {
+	out := new(AgentApiResponse)
+	err := grpc.Invoke(ctx, "/kolide.agent.Api/PublishResults", in, out, c.cc, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *apiClient) HotConfigure(ctx context.Context, in *AgentApiRequest, opts ...grpc.CallOption) (Api_HotConfigureClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Api_serviceDesc.Streams[0], c.cc, "/kolide.agent.Api/HotConfigure", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &apiHotConfigureClient{stream}
+	if err := x.ClientStream.SendMsg(in); err != nil {
+		return nil, err
+	}
+	if err := x.ClientStream.CloseSend(); err != nil {
+		return nil, err
+	}
+	return x, nil
+}
+
+type Api_HotConfigureClient interface {
+	Recv() (*ConfigResponse, error)
+	grpc.ClientStream
+}
+
+type apiHotConfigureClient struct {
+	grpc.ClientStream
+}
+
+func (x *apiHotConfigureClient) Recv() (*ConfigResponse, error) {
+	m := new(ConfigResponse)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+func (c *apiClient) HotlineBling(ctx context.Context, opts ...grpc.CallOption) (Api_HotlineBlingClient, error) {
+	stream, err := grpc.NewClientStream(ctx, &_Api_serviceDesc.Streams[1], c.cc, "/kolide.agent.Api/HotlineBling", opts...)
+	if err != nil {
+		return nil, err
+	}
+	x := &apiHotlineBlingClient{stream}
+	return x, nil
+}
+
+type Api_HotlineBlingClient interface {
+	Send(*ResultCollection) error
+	Recv() (*QueryCollection, error)
+	grpc.ClientStream
+}
+
+type apiHotlineBlingClient struct {
+	grpc.ClientStream
+}
+
+func (x *apiHotlineBlingClient) Send(m *ResultCollection) error {
+	return x.ClientStream.SendMsg(m)
+}
+
+func (x *apiHotlineBlingClient) Recv() (*QueryCollection, error) {
+	m := new(QueryCollection)
+	if err := x.ClientStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+// Server API for Api service
+
+type ApiServer interface {
+	// Attempt to enroll a host with kolide/cloud
+	RequestEnrollment(context.Context, *EnrollmentRequest) (*EnrollmentResponse, error)
+	// request an updated configuration from kolide/cloud
+	// a generic request object is sent
+	RequestConfig(context.Context, *AgentApiRequest) (*ConfigResponse, error)
+	// request/pull Dist queries from kolide/cloud
+	// a generic request object is sent
+	RequestQueries(context.Context, *AgentApiRequest) (*QueryCollection, error)
+	// publish logs from osqueryd to kolide/cloud
+	// a generic response object is returned
+	PublishLogs(context.Context, *LogCollection) (*AgentApiResponse, error)
+	// publish results from Dist queries to kolide/cloud
+	// a generic response object is returned
+	PublishResults(context.Context, *ResultCollection) (*AgentApiResponse, error)
+	// pushed configurations
+	HotConfigure(*AgentApiRequest, Api_HotConfigureServer) error
+	// this would be live query push to agent, and response back to kolide/cloud
+	HotlineBling(Api_HotlineBlingServer) error
+}
+
+func RegisterApiServer(s *grpc.Server, srv ApiServer) {
+	s.RegisterService(&_Api_serviceDesc, srv)
+}
+
+func _Api_RequestEnrollment_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EnrollmentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).RequestEnrollment(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kolide.agent.Api/RequestEnrollment",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).RequestEnrollment(ctx, req.(*EnrollmentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_RequestConfig_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentApiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).RequestConfig(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kolide.agent.Api/RequestConfig",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).RequestConfig(ctx, req.(*AgentApiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_RequestQueries_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AgentApiRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).RequestQueries(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kolide.agent.Api/RequestQueries",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).RequestQueries(ctx, req.(*AgentApiRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_PublishLogs_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(LogCollection)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).PublishLogs(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kolide.agent.Api/PublishLogs",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).PublishLogs(ctx, req.(*LogCollection))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_PublishResults_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ResultCollection)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(ApiServer).PublishResults(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/kolide.agent.Api/PublishResults",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(ApiServer).PublishResults(ctx, req.(*ResultCollection))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Api_HotConfigure_Handler(srv interface{}, stream grpc.ServerStream) error {
+	m := new(AgentApiRequest)
+	if err := stream.RecvMsg(m); err != nil {
+		return err
+	}
+	return srv.(ApiServer).HotConfigure(m, &apiHotConfigureServer{stream})
+}
+
+type Api_HotConfigureServer interface {
+	Send(*ConfigResponse) error
+	grpc.ServerStream
+}
+
+type apiHotConfigureServer struct {
+	grpc.ServerStream
+}
+
+func (x *apiHotConfigureServer) Send(m *ConfigResponse) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func _Api_HotlineBling_Handler(srv interface{}, stream grpc.ServerStream) error {
+	return srv.(ApiServer).HotlineBling(&apiHotlineBlingServer{stream})
+}
+
+type Api_HotlineBlingServer interface {
+	Send(*QueryCollection) error
+	Recv() (*ResultCollection, error)
+	grpc.ServerStream
+}
+
+type apiHotlineBlingServer struct {
+	grpc.ServerStream
+}
+
+func (x *apiHotlineBlingServer) Send(m *QueryCollection) error {
+	return x.ServerStream.SendMsg(m)
+}
+
+func (x *apiHotlineBlingServer) Recv() (*ResultCollection, error) {
+	m := new(ResultCollection)
+	if err := x.ServerStream.RecvMsg(m); err != nil {
+		return nil, err
+	}
+	return m, nil
+}
+
+var _Api_serviceDesc = grpc.ServiceDesc{
+	ServiceName: "kolide.agent.Api",
+	HandlerType: (*ApiServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "RequestEnrollment",
+			Handler:    _Api_RequestEnrollment_Handler,
+		},
+		{
+			MethodName: "RequestConfig",
+			Handler:    _Api_RequestConfig_Handler,
+		},
+		{
+			MethodName: "RequestQueries",
+			Handler:    _Api_RequestQueries_Handler,
+		},
+		{
+			MethodName: "PublishLogs",
+			Handler:    _Api_PublishLogs_Handler,
+		},
+		{
+			MethodName: "PublishResults",
+			Handler:    _Api_PublishResults_Handler,
+		},
+	},
+	Streams: []grpc.StreamDesc{
+		{
+			StreamName:    "HotConfigure",
+			Handler:       _Api_HotConfigure_Handler,
+			ServerStreams: true,
+		},
+		{
+			StreamName:    "HotlineBling",
+			Handler:       _Api_HotlineBling_Handler,
+			ServerStreams: true,
+			ClientStreams: true,
+		},
+	},
+	Metadata: "agent_api.proto",
 }
 
 func init() { proto.RegisterFile("agent_api.proto", fileDescriptor0) }
