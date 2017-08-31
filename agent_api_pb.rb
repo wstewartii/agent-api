@@ -66,6 +66,14 @@ Google::Protobuf::DescriptorPool.generated_pool.build do
     optional :name, :string, 1
     optional :value, :string, 2
   end
+  add_message "kolide.agent.HealthCheckResponse" do
+    optional :status, :enum, 1, "kolide.agent.HealthCheckResponse.ServingStatus"
+  end
+  add_enum "kolide.agent.HealthCheckResponse.ServingStatus" do
+    value :UNKNOWN, 0
+    value :SERVING, 1
+    value :NOT_SERVING, 2
+  end
 end
 
 module Kolide
@@ -84,5 +92,7 @@ module Kolide
     ResultCollection::Result = Google::Protobuf::DescriptorPool.generated_pool.lookup("kolide.agent.ResultCollection.Result").msgclass
     ResultCollection::Result::ResultRow = Google::Protobuf::DescriptorPool.generated_pool.lookup("kolide.agent.ResultCollection.Result.ResultRow").msgclass
     ResultCollection::Result::ResultRow::Column = Google::Protobuf::DescriptorPool.generated_pool.lookup("kolide.agent.ResultCollection.Result.ResultRow.Column").msgclass
+    HealthCheckResponse = Google::Protobuf::DescriptorPool.generated_pool.lookup("kolide.agent.HealthCheckResponse").msgclass
+    HealthCheckResponse::ServingStatus = Google::Protobuf::DescriptorPool.generated_pool.lookup("kolide.agent.HealthCheckResponse.ServingStatus").enummodule
   end
 end
