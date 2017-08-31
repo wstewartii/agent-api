@@ -33,6 +33,10 @@ module Kolide
         # publish results from Dist queries to kolide/cloud
         # a generic response object is returned
         rpc :PublishResults, ResultCollection, AgentApiResponse
+        # check the health of the GRPC server
+        # a value indicating healthiness is returned
+        # if you don't hear from this endpoint assume the worst
+        rpc :CheckHealth, AgentApiRequest, HealthCheckResponse
         # ////////////////////
         # Live-Link and BIDI stuff
         # ////////////////////
