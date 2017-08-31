@@ -28,6 +28,11 @@ service Api {
     rpc PublishResults(ResultCollection) returns (AgentApiResponse) {}
 
 
+    // check the health of the GRPC server
+    // a value indicating healthiness is returned
+    // if you don't hear from this endpoint assume the worst
+    rpc CheckHealth(AgentApiRequest) returns (HealthCheckResponse) {}
+
     //////////////////////
     // Live-Link and BIDI stuff
     //////////////////////
@@ -151,6 +156,20 @@ message ResultCollection {
             }
         }
     }
+}
+
+//////////////////////
+// health
+//////////////////////
+
+
+message HealthCheckResponse {
+  enum ServingStatus {
+    UNKNOWN = 0;
+    SERVING = 1;
+    NOT_SERVING = 2;
+  }
+  ServingStatus status = 1;
 }
 
 //////////////////////
