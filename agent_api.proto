@@ -33,14 +33,6 @@ service Api {
     // if you don't hear from this endpoint assume the worst
     rpc CheckHealth(AgentApiRequest) returns (HealthCheckResponse) {}
 
-    //////////////////////
-    // Live-Link and BIDI stuff
-    //////////////////////
-    
-    //pushed configurations
-    rpc HotConfigure(AgentApiRequest) returns (stream ConfigResponse);
-    // this would be live query push to agent, and response back to kolide/cloud
-    rpc HotlineBling(stream ResultCollection) returns (stream QueryCollection);
 }
 
 

@@ -37,14 +37,6 @@ module Kolide
         # a value indicating healthiness is returned
         # if you don't hear from this endpoint assume the worst
         rpc :CheckHealth, AgentApiRequest, HealthCheckResponse
-        # ////////////////////
-        # Live-Link and BIDI stuff
-        # ////////////////////
-        #
-        # pushed configurations
-        rpc :HotConfigure, AgentApiRequest, stream(ConfigResponse)
-        # this would be live query push to agent, and response back to kolide/cloud
-        rpc :HotlineBling, stream(ResultCollection), stream(QueryCollection)
       end
 
       Stub = Service.rpc_stub_class

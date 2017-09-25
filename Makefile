@@ -5,4 +5,4 @@ go:
 
 
 ruby:
-	protoc -I=. ./agent_api.proto --ruby_out=./ --plugin=protoc-gen-grpc=`which grpc_ruby_plugin`
+	grpc_tools_ruby_protoc -I ./ --ruby_out=. --grpc_out=. ./agent_api.proto
